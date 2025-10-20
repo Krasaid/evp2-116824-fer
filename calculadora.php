@@ -1,5 +1,6 @@
 <?php
 // Define la constante PI para precisión
+// M_PI ya está definido en PHP por defecto, pero esta verificación es buena práctica.
 if (!defined('M_PI')) {
     define('M_PI', 3.14159265358979323846);
 }
@@ -54,132 +55,104 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <title>Calculadora de Área y Volumen</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Gris claro */
-            color: #333; /* Gris oscuro */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .calculadora-container {
-            background-color: #ffffff; /* Blanco */
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra gris */
-            width: 100%;
-            max-width: 600px;
-            text-align: left;
-        }
-        h1, h2, h3 {
-            color: #555; /* Gris medio */
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666; /* Gris */
-        }
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc; /* Gris claro */
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #fafafa; /* Gris muy claro */
-            color: #333;
-        }
-        input[type="number"]:focus {
-            border-color: #999; /* Gris más oscuro */
-            outline: none;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #888; /* Gris */
-            color: #fff; /* Blanco */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-        }
-        button:hover {
-            background-color: #666; /* Gris más oscuro */
-        }
-        .error {
-            color: #d9534f; /* Rojo grisáceo para errores */
-            margin-bottom: 15px;
-        }
-        .resultado {
-            border: 1px solid #ccc; /* Gris claro */
-            padding: 20px;
-            margin-top: 30px;
-            background-color: #fafafa; /* Gris muy claro */
-            border-radius: 4px;
-        }
-        .resultado h3 {
-            color: #555; /* Gris medio */
-        }
-        .resultado p {
-            color: #333; /* Gris oscuro */
-            margin: 10px 0;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #ddd; /* Gris muy claro */
-            margin: 30px 0;
-        }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="calculadora-container">
-        <h1>Ejercicio 2: Cálculo de Área y Volumen</h1>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen m-0 p-6">
+    <div class="calculadora-container bg-white p-8 rounded-xl shadow-2xl w-full max-w-xl text-left">
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-3">🧮 Ejercicio 2: Cálculo Geométrico</h1>
 
         <form method="POST" action="calculadora.php">
             
-            <h2>Rectángulo</h2>
-            <label for="base">Base (b):</label>
-            <input type="number" step="0.01" name="base" id="base" value="<?php echo $_POST['base'] ?? ''; ?>" required>
-            <?php if (!empty($errores['base'])) echo "<p class='error'>{$errores['base']}</p>"; ?>
-            
-            <label for="altura">Altura (h):</label>
-            <input type="number" step="0.01" name="altura" id="altura" value="<?php echo $_POST['altura'] ?? ''; ?>" required>
-            <?php if (!empty($errores['altura'])) echo "<p class='error'>{$errores['altura']}</p>"; ?>
-            
-            <hr>
+            <div class="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Rectángulo (Área y Perímetro)</h2>
+                
+                <div class="mb-4">
+                    <label for="base" class="block text-sm font-medium text-gray-700 mb-1">Base (b):</label>
+                    <input 
+                        type="number" 
+                        step="0.01" 
+                        name="base" 
+                        id="base" 
+                        value="<?php echo $_POST['base'] ?? ''; ?>" 
+                        required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition duration-150"
+                        placeholder="Ej: 10.5"
+                    >
+                    <?php if (!empty($errores['base'])) echo "<p class='text-red-600 text-sm mt-1'>{$errores['base']}</p>"; ?>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="altura" class="block text-sm font-medium text-gray-700 mb-1">Altura (h):</label>
+                    <input 
+                        type="number" 
+                        step="0.01" 
+                        name="altura" 
+                        id="altura" 
+                        value="<?php echo $_POST['altura'] ?? ''; ?>" 
+                        required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition duration-150"
+                        placeholder="Ej: 5.2"
+                    >
+                    <?php if (!empty($errores['altura'])) echo "<p class='text-red-600 text-sm mt-1'>{$errores['altura']}</p>"; ?>
+                </div>
+            </div>
 
-            <h2>Cilindro</h2>
-            <label for="radio">Radio (r):</label>
-            <input type="number" step="0.01" name="radio" id="radio" value="<?php echo $_POST['radio'] ?? ''; ?>" required>
-            <?php if (!empty($errores['radio'])) echo "<p class='error'>{$errores['radio']}</p>"; ?>
+            <div class="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Cilindro (Volumen y Área Total)</h2>
+
+                <div class="mb-4">
+                    <label for="radio" class="block text-sm font-medium text-gray-700 mb-1">Radio (r):</label>
+                    <input 
+                        type="number" 
+                        step="0.01" 
+                        name="radio" 
+                        id="radio" 
+                        value="<?php echo $_POST['radio'] ?? ''; ?>" 
+                        required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition duration-150"
+                        placeholder="Ej: 4.0"
+                    >
+                    <?php if (!empty($errores['radio'])) echo "<p class='text-red-600 text-sm mt-1'>{$errores['radio']}</p>"; ?>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="altura_cilindro" class="block text-sm font-medium text-gray-700 mb-1">Altura del Cilindro (h):</label>
+                    <input 
+                        type="number" 
+                        step="0.01" 
+                        name="altura_cilindro" 
+                        id="altura_cilindro" 
+                        value="<?php echo $_POST['altura_cilindro'] ?? ''; ?>" 
+                        required
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-200 transition duration-150"
+                        placeholder="Ej: 12.0"
+                    >
+                    <?php if (!empty($errores['altura_cilindro'])) echo "<p class='text-red-600 text-sm mt-1'>{$errores['altura_cilindro']}</p>"; ?>
+                </div>
+            </div>
             
-            <label for="altura_cilindro">Altura del Cilindro (h):</label>
-            <input type="number" step="0.01" name="altura_cilindro" id="altura_cilindro" value="<?php echo $_POST['altura_cilindro'] ?? ''; ?>" required>
-            <?php if (!empty($errores['altura_cilindro'])) echo "<p class='error'>{$errores['altura_cilindro']}</p>"; ?>
-            
-            <button type="submit">Calcular</button>
+            <button 
+                type="submit"
+                class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition duration-300 ease-in-out"
+            >
+                ✅ Calcular Áreas y Volúmenes
+            </button>
         </form>
         
         <?php if (!empty($resultados)): ?>
-            <div class="resultado">
-                <h2>Resultados</h2>
+            <div class="resultado mt-8 border-2 border-indigo-400 p-6 bg-indigo-50 rounded-lg">
+                <h2 class="text-2xl font-bold text-indigo-800 mb-4">⭐ Resultados del Cálculo</h2>
                 
                 <?php if (isset($resultados['rectangulo_area'])): ?>
-                    <h3>Rectángulo</h3>
-                    <p>Área: <strong><?php echo $resultados['rectangulo_area']; ?></strong></p>
-                    <p>Perímetro: <strong><?php echo $resultados['rectangulo_perimetro']; ?></strong></p>
+                    <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2">Rectángulo</h3>
+                    <p class="text-lg text-gray-800">Área: <strong class="text-indigo-600"><?php echo $resultados['rectangulo_area']; ?></strong></p>
+                    <p class="text-lg text-gray-800">Perímetro: <strong class="text-indigo-600"><?php echo $resultados['rectangulo_perimetro']; ?></strong></p>
                 <?php endif; ?>
 
                 <?php if (isset($resultados['cilindro_volumen'])): ?>
-                    <h3>Cilindro</h3>
-                    <p>Volumen: <strong><?php echo $resultados['cilindro_volumen']; ?></strong></p>
-                    <p>Área Total: <strong><?php echo $resultados['cilindro_area_total']; ?></strong></p>
+                    <h3 class="text-xl font-semibold text-gray-700 mt-4 mb-2 <?php echo (isset($resultados['rectangulo_area'])) ? 'border-t pt-4 mt-4 border-indigo-200' : ''; ?>">Cilindro</h3>
+                    <p class="text-lg text-gray-800">Volumen: <strong class="text-indigo-600"><?php echo $resultados['cilindro_volumen']; ?></strong></p>
+                    <p class="text-lg text-gray-800">Área Total: <strong class="text-indigo-600"><?php echo $resultados['cilindro_area_total']; ?></strong></p>
                 <?php endif; ?>
             </div>
         <?php endif; ?>

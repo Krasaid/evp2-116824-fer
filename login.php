@@ -2,22 +2,20 @@
 // Inicia la sesión para manejar el estado de autenticación
 session_start();
 
-// Define las credenciales válidas (puedes cambiarlas)
+// Define las credenciales válidas
 $usuario_valido = "admin";
-$contrasena_valida = "12345"; // ¡En un proyecto real, nunca guardes contraseñas sin hashear!
+$contrasena_valida = "12345"; 
 
 $error = "";
 
-// 1. Verifica si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST['usuario'] ?? '';
     $contrasena = $_POST['contrasena'] ?? '';
 
-    // 2. Validación de campos vacíos
     if (empty($usuario) || empty($contrasena)) {
         $error = "Todos los campos son obligatorios.";
     } else {
-        // 3. Validación de credenciales
+   
         if ($usuario === $usuario_valido && $contrasena === $contrasena_valida) {
             // Credenciales correctas: Inicia la sesión y redirige al panel
             $_SESSION['autenticado'] = true;
@@ -37,88 +35,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>Login</title>
+    <title>Login | GEM.dev</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
+      
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Gris claro */
-            color: #333; /* Gris oscuro */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background-color: #ffffff; /* Blanco */
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra gris */
-            width: 300px;
-            text-align: center;
-        }
-        h1 {
-            color: #555; /* Gris medio */
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666; /* Gris */
-            text-align: left;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc; /* Gris claro */
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #fafafa; /* Gris muy claro */
-            color: #333;
-        }
-        input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #999; /* Gris más oscuro */
-            outline: none;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #888; /* Gris */
-            color: #fff; /* Blanco */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #666; /* Gris más oscuro */
-        }
-        .error {
-            color: #d9534f; /* Rojo grisáceo para errores, pero manteniendo escala de grises con un toque */
-            margin-bottom: 15px;
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         }
     </style>
 </head>
-<body>
-    <div class="login-container">
-        <h1>Inicio de Sesión</h1>
+
+<body class="bg-gray-100 flex justify-center items-center h-screen m-0">
+    <div class="bg-white p-10 rounded-xl shadow-2xl w-full max-w-md text-center">
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-6">🔑 Iniciar Sesión</h1>
 
         <?php 
         // Muestra el mensaje de error si existe
         if (!empty($error)) {
-            echo "<p class='error'>" . $error . "</p>";
+            // Clase de error: Fondo rojo suave, texto rojo oscuro y padding.
+            echo "<p class='error bg-red-100 text-red-700 p-3 rounded-lg mb-4 font-medium'>" . $error . "</p>";
         }
         ?>
 
         <form method="POST" action="login.php">
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" required>
+            <label for="usuario" class="block text-left text-sm font-medium text-gray-700 mb-1">Usuario:</label>
+            <input 
+                type="text" 
+                id="usuario" 
+                name="usuario" 
+                required
+                class="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition duration-150"
+                placeholder="Ingresa tu nombre de usuario"
+            >
 
-            <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" required>
+            <label for="contrasena" class="block text-left text-sm font-medium text-gray-700 mb-1">Contraseña:</label>
+            <input 
+                type="password" 
+                id="contrasena" 
+                name="contrasena" 
+                required
+                class="w-full p-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition duration-150"
+                placeholder="Ingresa tu contraseña"
+            >
 
-            <button type="submit">Iniciar Sesión</button>
+            <button 
+                type="submit" 
+                class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-300 transition duration-300 ease-in-out"
+            >
+                🚀 Entrar al Panel
+            </button>
         </form>
     </div>
 </body>
